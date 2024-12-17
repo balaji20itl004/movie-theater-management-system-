@@ -99,40 +99,84 @@ def customer_dashboard(username):
 
 def movies_list():
     print("\nTHIS WEEK MOVIES:")
-    print("1. Kanguva")
-    print("2. Amaran")
-    print("3. Lucky Baskar")
+    for a,m in enumerate(movies, start=1):
+        print(f"{a}. {m['Name']}")
 
     
-    choice=int(input("\nenter your choice: "))
-    if choice==1:
-        kanguva()
-    elif choice==2:
-        amaran()
-    elif choice==3:
-        lucky_baskar()
-    else:
-        print("invalid choice, please try again ")
+    print("select a movie to book tickets by entering the number.")
+    choice = int(input("Enter your choice or press 0 to exit: "))
+    
+    try:
+        if choice == 0:
+            print("Exiting...")
+        elif 1 <= choice <= len(movies):
+            book_ticket(choice - 1)  
+        else:
+            print("Invalid choice! Please try again.")
+    except ValueError:
+        print("Invalid input! Please enter a number.")
+
+
+def book_ticket(movie_index):
+    movie= movies[movie_index]
+    print(f"you selected: {movie['Name']}")
+    available_seats = movie['Seat availability']
+    print(f"Available seats: {available_seats}")
+
+    try:
+        num_tickets=int(input("Enter the number of tickets book: "))
+        if 0 <num_tickets <=available_seats:
+            a= available_seats - num_tickets
+            print(f"Successfully booked {num_tickets} tickets for {movie['Name']}")
+            print(f"Remaining seats: {a}")
+        else:
+            print("invalid number of tickets ! please try again")
+    except ValueError:
+        print("Inavlid input ! please enter valid number.")
 
 
 
-def kanguva():
-    print("\nMovie Name: KANGUVA")
-    print("Genre: Historical Adventure")
-    print("IMDB Rating: 5/10")
-    print("\n1. BOOK YOUR SEATS")
 
-def amaran():
-    print("\nMovie Name: AMARAN")
-    print("Genre: Biopic")
-    print("IMDB Rating: 9/10")
-    print("\nBOOK YOUR SEATS (Coming Soon!)")
+    
+           
+    
 
-def lucky_baskar():
-    print("\nMovie Name: LUCKY BASKAR")
-    print("Genre: crime, drama, and thriller")
-    print("IMDB Rating: 9/10")
-    print("\nBOOK YOUR SEATS (Coming Soon!)")
+
+
+movies=[]
+
+def add_movies():
+    print("\nADD MOVIES.")
+
+    a=int(input("enter How much movies add: "))
+    for i in range(a):
+        movie_name = input("\nEnter the new movie name: ")
+        runtime = input(f"Enter the runtime for {movie_name} (in minutes): ")
+        screen = input(f"Enter the screen for {movie_name}: ")
+        genre= input(f"Enter the genre for {movie_name}: ")
+        imdb=input(f"Enter the IMDB Rating for {movie_name}: ")
+        while True:
+            try:
+                seat = int(input(f"Set seat availability for {movie_name} (max 100 seats): "))
+                if seat >= 0 and seat<=100:
+                    break
+                elif seat>=100:
+                    print("only 100 seats alloted")
+                else:
+                    print("Seats must be a positive number.")
+            except ValueError:
+                print("Invalid input! Please enter a number.")
+
+        movies.append({"Name":movie_name, "Genre":genre, "RunTime":runtime, "screen":screen, "IMDB Rating":imdb, "Seat availability":seat})
+
+
+        print(f"\nMovie '{movie_name}' details updated successfully.")
+
+    print(f"updated movie list.")
+    for a,m in enumerate(movies, start=1):
+        print(f"{a}. {m['Name']}")
+        break
+
 
 
 def admin():
@@ -146,20 +190,15 @@ def admin():
         print("Invalid admin ID or password.")
 
 
-def add_movies():
-    print("\nADD MOVIES.")
 
-    movie_name = input("Enter the new movie name: ")
-    runtime = input(f"Enter the runtime for {movie_name} (in minutes): ")
-    screen = input(f"Enter the screen for {movie_name}: ")
-    print(f"\nMovie '{movie_name}' details updated successfully.")
 
 
 def exit_program():
     print("Thank you for visiting Ram Cinemas. Goodbye!")
 
 
-# Main Program
+
+
 while True:
     print("\nWelcome to Ram Cinemas")
     print("\n1. Admin")
