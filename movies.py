@@ -28,9 +28,7 @@ def login():
             break
         else:
             print("\nInvalid phone number. It must be a 10-digit number.")
-       
-
-    
+           
     while True:
         new_password = input("\nEnter your new password: ")
     
@@ -60,15 +58,15 @@ def login():
 def signin():
     username = input("Enter username: ")
     password = input("Enter your password: ")
-    
+
     
     while True:
-        phone_number = input("Enter your phone number: ")
-        if re.match(r'^\d{10}$', phone_number):
-            break
-        else:
-            print("Invalid phone number. It must be a 10-digit number. please try again")
-        
+            phone_number = input("Enter your phone number: ")
+            if re.match(r'^\d{10}$', phone_number):
+                break
+            else:
+                print("Invalid phone number. It must be a 10-digit number. please try again")
+     
 
     print(f"Welcome back, {username}!")
     customer_dashboard(username)
